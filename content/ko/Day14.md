@@ -17,7 +17,7 @@ Streamlit 컴포넌트는 pip로 설치하기만 하면 사용할 수 있습니�
 #### 컴포넌트 설치하기
 
 ```bash
-pip install streamlit_pandas_profiling
+pip install streamlit_pandas_profiling ydata-profiling
 ```
 
 ## 데모 앱
@@ -29,14 +29,14 @@ pip install streamlit_pandas_profiling
 ```python
 import streamlit as st
 import pandas as pd
-import pandas_profiling
+from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
 st.header('`streamlit_pandas_profiling`')
 
 df = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/master/penguins_cleaned.csv')
 
-pr = df.profile_report()
+pr = ProfileReport(df)
 st_profile_report(pr)
 ```
 
@@ -45,7 +45,7 @@ Streamlit 앱을 만들 때 가장 먼저 할 일은 다음과 같이 `streamlit
 ```python
 import streamlit as st
 import pandas as pd
-import pandas_profiling
+from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 ```
 
@@ -59,9 +59,9 @@ st.header('`streamlit_pandas_profiling`')
 df = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/master/penguins_cleaned.csv')
 ```
 
-마지막으로 `profile_report()` 명령으로 pandas 프로파일링 보고서를 생성하고 `st_profile_report`로 표시합니다.
+마지막으로 [`ydata-profiling`](https://docs.profiling.ydata.ai/4.12/getting-started/quickstart/)의 `ProfileReport(df)`로 프로파일링 보고서를 생성하고 `st_profile_report`로 표시합니다.
 ```python
-pr = df.profile_report()
+pr = ProfileReport(df)
 st_profile_report(pr)
 ```
 
