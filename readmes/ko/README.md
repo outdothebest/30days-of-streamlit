@@ -36,6 +36,10 @@
 - 아이디어와 템플릿, 커뮤니티 앱을 찾아볼 수 있는 멋진 [갤러리](https://streamlit.io/gallery)
 - 팁과 최신 Streamlit 정보를 제공하는 [블로그](https://blog.streamlit.io/how-to-master-streamlit-for-data-science/)
 
+## 14일차: 프로파일링 예제
+
+[14일차 학습 자료](../../content/ko/Day14.md)는 `streamlit_pandas_profiling`과 함께 `ydata-profiling`의 `ProfileReport`를 사용합니다. 컴포넌트 제작자의 README에는 이전 `pandas_profiling` API 예제가 있으므로, 설치 명령과 예제 코드는 이 학습 자료를 따라 주세요.
+
 ## 번역
 
 영어 외에 더 익숙한 언어가 있고, `#30DaysOfStreamlit`을 더 많은 사람에게 알리고 싶으신가요? 챌린지를 원하는 언어로 번역하고 아래에 링크를 추가해 주세요!

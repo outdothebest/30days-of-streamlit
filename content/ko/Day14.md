@@ -20,9 +20,11 @@ Streamlit 컴포넌트는 pip로 설치하기만 하면 사용할 수 있습니�
 pip install streamlit_pandas_profiling ydata-profiling
 ```
 
-## 데모 앱
+## 보고서 예시
 
-[![Streamlit 앱](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/dataprofessor/streamlit-components/)
+[프로파일링 보고서 예시 보기 (Titanic 데이터셋)](https://docs.profiling.ydata.ai/latest/examples/titanic/titanic_report.html)
+
+이 정적 HTML 보고서는 Titanic 데이터셋을 사용하며, 아래 학습 예제는 Penguins 데이터셋을 사용합니다.
 
 ## 코드
 컴포넌트를 사용하는 Streamlit 앱을 만드는 방법은 다음과 같습니다.

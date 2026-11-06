@@ -36,6 +36,10 @@ Complete the daily challenges, share your solutions with us on [Twitter](https:/
 - Our awesome [Gallery](https://streamlit.io/gallery) for inspiration, templates, and community apps
 - Our [blog](https://blog.streamlit.io/how-to-master-streamlit-for-data-science/) for tips and the latest Streamlit info
 
+## Day 14: profiling example
+
+The [Day 14 lesson](../../content/en/Day14.md) uses `ydata-profiling` and `ProfileReport` with `streamlit_pandas_profiling`. Follow the lesson's installation command and example; the component author's README still uses the older `pandas_profiling` API.
+
 ## Translations
 
 Want to help us expand the reach of `#30DaysOfStreamlit` and English isn't your primary language? Translate the challenges into your preferred language and link to them below!

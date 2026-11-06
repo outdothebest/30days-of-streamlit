@@ -20,9 +20,11 @@ In this tutorial, let's get you started in using the `streamlit_pandas_profiling
 pip install streamlit_pandas_profiling ydata-profiling
 ```
 
-## Demo app
+## Example report
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/dataprofessor/streamlit-components/)
+[View an example profiling report (Titanic dataset)](https://docs.profiling.ydata.ai/latest/examples/titanic/titanic_report.html)
+
+This static HTML report uses the Titanic dataset; the lesson below uses the Penguins dataset.
 
 ## Code
 Here's how to build a Streamlit app using a component:
