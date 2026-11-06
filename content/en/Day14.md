@@ -12,7 +12,7 @@ Fanilo (a Streamlit Creator) curated an amazing list of Streamlit components on 
 
 Streamlit components are just a pip-install away.
 
-In this tutorial, let's get you started in using the `streamlit_pandas_profiling` component [[4](https://share.streamlit.io/okld/streamlit-gallery/main?p=pandas-profiling)].
+In this tutorial, let's get you started in using the `streamlit_pandas_profiling` component [[4](https://github.com/okld/streamlit-pandas-profiling)].
 
 #### Install the component 
 
@@ -68,10 +68,10 @@ st_profile_report(pr)
 ## Making your own Components
 
 If you're interested in making your own component, please check out the following resources:
-- [Create a Component](https://docs.streamlit.io/library/components/create)
+- [Create a Component](https://docs.streamlit.io/develop/concepts/custom-components/components-v1/create)
 - [Publish a Component](https://docs.streamlit.io/library/components/publish)
-- [Components API](https://docs.streamlit.io/library/components/components-api)
-- [Blog post on Components](https://blog.streamlit.io/introducing-streamlit-components/)
+- [Components API](https://docs.streamlit.io/develop/concepts/custom-components/components-v1/intro)
+- [Introducing Streamlit Components (official forum)](https://discuss.streamlit.io/t/introducing-streamlit-components/6115)
 
 Alternatively, if you prefer to learn using videos, our engineer Tim Conkling has put together some amazing tutorials:
 - [How to build a Streamlit component | Part 1: Setup and Architecture](https://youtu.be/BuD3gILJW-Q)
@@ -81,4 +81,4 @@ Alternatively, if you prefer to learn using videos, our engineer Tim Conkling ha
 1. [Streamlit Components - API Documentation](https://docs.streamlit.io/library/components)
 2. [Featured Streamlit Components](https://streamlit.io/components)
 3. [Streamlit Components - Community Tracker](https://discuss.streamlit.io/t/streamlit-components-community-tracker/4634)
-4. [`streamlit_pandas_profiling`](https://share.streamlit.io/okld/streamlit-gallery/main?p=pandas-profiling)
+4. [`streamlit_pandas_profiling` - source and installation](https://github.com/okld/streamlit-pandas-profiling)
