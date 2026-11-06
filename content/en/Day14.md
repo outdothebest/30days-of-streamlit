@@ -17,7 +17,7 @@ In this tutorial, let's get you started in using the `streamlit_pandas_profiling
 #### Install the component 
 
 ```bash
-pip install streamlit_pandas_profiling
+pip install streamlit_pandas_profiling ydata-profiling
 ```
 
 ## Demo app
@@ -29,14 +29,14 @@ Here's how to build a Streamlit app using a component:
 ```python
 import streamlit as st
 import pandas as pd
-import pandas_profiling
+from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
 st.header('`streamlit_pandas_profiling`')
 
 df = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/master/penguins_cleaned.csv')
 
-pr = df.profile_report()
+pr = ProfileReport(df)
 st_profile_report(pr)
 ```
 
@@ -45,7 +45,7 @@ The very first thing to do when creating a Streamlit app is to start by importin
 ```python
 import streamlit as st
 import pandas as pd
-import pandas_profiling
+from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 ```
 
@@ -59,9 +59,9 @@ Next, we load in the Penguins dataset using the `read_csv` command of `pandas`.
 df = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/master/penguins_cleaned.csv')
 ```
 
-Finally, the pandas profiling report is generated via the `profile_report()` command and displayed using `st_profile_report`:
+Finally, the profiling report is generated using `ProfileReport(df)` from [`ydata-profiling`](https://docs.profiling.ydata.ai/4.12/getting-started/quickstart/) and displayed using `st_profile_report`:
 ```python
-pr = df.profile_report()
+pr = ProfileReport(df)
 st_profile_report(pr)
 ```
 
