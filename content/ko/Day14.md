@@ -12,7 +12,7 @@ Streamlit Creator인 Fanilo는 위키 게시물에 유용한 Streamlit 컴포넌
 
 Streamlit 컴포넌트는 pip로 설치하기만 하면 사용할 수 있습니다.
 
-이번 튜토리얼에서는 `streamlit_pandas_profiling` 컴포넌트를 사용해 보겠습니다[[4](https://share.streamlit.io/okld/streamlit-gallery/main?p=pandas-profiling)].
+이번 튜토리얼에서는 `streamlit_pandas_profiling` 컴포넌트를 사용해 보겠습니다[[4](https://github.com/okld/streamlit-pandas-profiling)].
 
 #### 컴포넌트 설치하기
 
@@ -20,9 +20,11 @@ Streamlit 컴포넌트는 pip로 설치하기만 하면 사용할 수 있습니�
 pip install streamlit_pandas_profiling ydata-profiling
 ```
 
-## 데모 앱
+## 보고서 예시
 
-[![Streamlit 앱](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/dataprofessor/streamlit-components/)
+[프로파일링 보고서 예시 보기 (Titanic 데이터셋)](https://docs.profiling.ydata.ai/latest/examples/titanic/titanic_report.html)
+
+이 정적 HTML 보고서는 Titanic 데이터셋을 사용하며, 아래 학습 예제는 Penguins 데이터셋을 사용합니다.
 
 ## 코드
 컴포넌트를 사용하는 Streamlit 앱을 만드는 방법은 다음과 같습니다.
@@ -68,10 +70,10 @@ st_profile_report(pr)
 ## 나만의 컴포넌트 만들기
 
 직접 컴포넌트를 만드는 데 관심이 있다면 다음 자료를 확인해 보세요.
-- [컴포넌트 만들기](https://docs.streamlit.io/library/components/create)
+- [컴포넌트 만들기](https://docs.streamlit.io/develop/concepts/custom-components/components-v1/create)
 - [컴포넌트 게시하기](https://docs.streamlit.io/library/components/publish)
-- [컴포넌트 API](https://docs.streamlit.io/library/components/components-api)
-- [컴포넌트 소개 블로그 글](https://blog.streamlit.io/introducing-streamlit-components/)
+- [컴포넌트 API](https://docs.streamlit.io/develop/concepts/custom-components/components-v1/intro)
+- [Streamlit 컴포넌트 소개 (공식 포럼)](https://discuss.streamlit.io/t/introducing-streamlit-components/6115)
 
 동영상으로 배우는 것을 선호한다면 엔지니어 Tim Conkling이 만든 유익한 튜토리얼도 있습니다.
 - [Streamlit 컴포넌트 만드는 방법 | 1부: 설정과 아키텍처](https://youtu.be/BuD3gILJW-Q)
@@ -81,4 +83,4 @@ st_profile_report(pr)
 1. [Streamlit 컴포넌트 - API 문서](https://docs.streamlit.io/library/components)
 2. [주요 Streamlit 컴포넌트](https://streamlit.io/components)
 3. [Streamlit 컴포넌트 - 커뮤니티 트래커](https://discuss.streamlit.io/t/streamlit-components-community-tracker/4634)
-4. [`streamlit_pandas_profiling`](https://share.streamlit.io/okld/streamlit-gallery/main?p=pandas-profiling)
+4. [`streamlit_pandas_profiling` - 소스 코드와 설치 방법](https://github.com/okld/streamlit-pandas-profiling)
