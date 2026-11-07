@@ -48,7 +48,21 @@ docker compose stop
 | `streamlit_app.py` | 언어와 일차별 강의 내용을 표시하는 뷰어 진입점 |
 | `examples/docker/` | 학습자가 `app.py`를 편집하는 Docker 실습 환경 |
 
-위 시작 명령은 `examples/docker/app.py`를 실행합니다. 루트의 `streamlit_app.py` 강의 뷰어는 별도 앱이며, 루트 `requirements.txt`의 다국어 Streamlit wheel을 사용합니다. 실습할 때는 위의 준비된 환경을 이용하세요.
+위 시작 명령은 `examples/docker/app.py`를 실행합니다. 루트의 `streamlit_app.py`는 일차별 학습 자료를 읽는 강의 뷰어입니다.
+
+## 강의 뷰어 실행하기
+
+OrbStack 또는 다른 Docker 엔진을 실행한 뒤, 저장소 루트의 터미널에서 시작합니다.
+
+```bash
+docker compose up --build -d
+```
+
+[http://localhost:8502](http://localhost:8502)에서 일차별 강의를 볼 수 있습니다. `content/`와 `locale/`은 읽기 전용으로 마운트되므로 강의 파일을 수정한 뒤 이미지를 다시 빌드할 필요 없이 브라우저를 새로고침하면 됩니다.
+
+기본 포트가 사용 중이면 `STREAMLIT_PORT=8503 docker compose up --build -d`로 실행하고 [http://localhost:8503](http://localhost:8503)을 엽니다. 로그는 `docker compose logs -f streamlit`으로 확인하고, 종료할 때는 저장소 루트에서 `docker compose down`을 실행합니다.
+
+강의 뷰어 이미지는 Python 3.11과 저장소에 포함된 다국어 Streamlit wheel을 사용합니다. 위의 Python 3.12 코드 실습 환경과는 별도로 실행됩니다.
 
 ## 언어별 안내
 
