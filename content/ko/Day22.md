@@ -13,7 +13,7 @@
 - 폼에는 `st.button`과 `st.download_button`을 추가할 수 없습니다.
 - 폼은 앱의 어느 곳에나 배치할 수 있지만(사이드바, 열 등), 다른 폼 안에 넣을 수는 없습니다.
 
-폼에 대한 자세한 내용은 [블로그 글](https://blog.streamlit.io/introducing-submit-button-and-forms/)을 참고하세요.
+폼에 대한 자세한 내용은 [커뮤니티 소개 글](https://discuss.streamlit.io/t/introducing-submit-button-and-forms/12401)을 참고하세요.
 
 ## 데모 앱
 
@@ -133,4 +133,4 @@ st.write('Selected value: ', selected_val)
 
 ## 더 알아보기
 - [`st.form`](https://docs.streamlit.io/library/api-reference/control-flow/st.form)
-- [제출 버튼과 폼 소개](https://blog.streamlit.io/introducing-submit-button-and-forms/)
+- [제출 버튼과 폼 소개](https://discuss.streamlit.io/t/introducing-submit-button-and-forms/12401)
