@@ -30,11 +30,11 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
@@ -111,14 +111,14 @@ st.set_page_config(layout="wide")
 
 फिर, हम `shap` लाइब्रेरी से डेटासेट में लोड करेंगे:
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 ```
 
 इसके बाद, हम `X, y` मैट्रिक्स जोड़ी को इनपुट के रूप में लेने के लिए `load_model` कहे जाने वाले फ़ंक्शन को निश्चित करेंगे, डेटा को ट्रेन/टेस्ट सेट में विभाजित करेंगे, एक XGBoost मॉडल का निर्माण और `DMatrix` को निर्मित करेंगे|
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)

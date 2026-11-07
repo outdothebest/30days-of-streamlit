@@ -32,11 +32,11 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
@@ -117,7 +117,7 @@ st.set_page_config(layout="wide")
 然后我们载入 `shap` 库中提供的数据库：
 
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 ```
@@ -125,7 +125,7 @@ def load_data():
 随后我们需要定义一个 `load_model` 函数，用于接收 `X, y` 两个矩阵作为输入，将数据分割为训练集与测试集，构建一个 `DMatrix` 对象然后搭建 XGBoost 模型。
 
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)

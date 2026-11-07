@@ -30,11 +30,11 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
@@ -111,14 +111,14 @@ st.set_page_config(layout="wide")
 
 Luego, cargaremos un conjunto de datos de `shap`:
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 ```
 
 Posteriormente, definiremos una función llamada `load_model` para tomar el par de matrices `X, y` como entrada, realizar la división de datos para entrenar/probar conjuntos, construir una `DMatrix` y construir un modelo XGBoost.
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)

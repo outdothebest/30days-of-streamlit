@@ -34,11 +34,11 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
@@ -117,7 +117,7 @@ st.set_page_config(layout="wide")
 
 Затем мы загрузим набор данных из библиотеки `shap`:
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 ```
@@ -125,7 +125,7 @@ def load_data():
 Впоследствии мы определим функцию под названием `load_model` для приема пары матриц `X, y` в качестве входных данных и выполним разделение данных на обучающие/тестовые наборы, строя `DMatrix` и модель XGBoost.
 
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
