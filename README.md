@@ -62,7 +62,19 @@ docker compose up --build -d
 
 기본 포트가 사용 중이면 `STREAMLIT_PORT=8503 docker compose up --build -d`로 실행하고 [http://localhost:8503](http://localhost:8503)을 엽니다. 로그는 `docker compose logs -f streamlit`으로 확인하고, 종료할 때는 저장소 루트에서 `docker compose down`을 실행합니다.
 
-강의 뷰어 이미지는 Python 3.11과 저장소에 포함된 다국어 Streamlit wheel을 사용합니다. 위의 Python 3.12 코드 실습 환경과는 별도로 실행됩니다.
+강의 뷰어와 코드 실습 이미지는 모두 Python 3.12와 표준 Streamlit 1.54.0을 사용합니다. 뷰어의 번역은 저장소의 `locale/` 카탈로그를 Python `gettext`로 읽습니다. Streamlit 자체 메뉴는 표준 배포판의 표시를 따릅니다.
+
+사이드바의 **Language / 언어**에서 강의 언어를 선택합니다. 첫 접속 시 브라우저의 언어 설정을 참고하며, 지원하지 않는 언어는 영어로 표시합니다. `http://localhost:8502/?language=ko&challenge=Day27`처럼 언어와 일차를 지정한 링크로 바로 열 수도 있습니다. 언어나 일차를 선택하면 URL도 갱신됩니다.
+
+뷰어를 켠 상태에서 다른 터미널의 `examples/docker`에서 `docker compose up -d`를 실행하면, 강의는 8502번 탭에서 읽고 실습은 8501번 탭에서 확인할 수 있습니다. 강의의 코드는 자동 실행되지 않으므로 `examples/docker/app.py`에 옮겨 저장하세요. 두 명령 모두 `STREAMLIT_PORT`를 사용하므로 전역 환경 변수로 같은 포트를 지정하지 마세요. 각각 종료하려면 해당 폴더에서 `docker compose down`을 실행합니다.
+
+호스트에서는 실습 파일을 편집할 수 있지만 컨테이너의 `/app` 마운트는 읽기 전용입니다. 예제가 파일을 생성해야 한다면 `/tmp` 등의 쓰기 가능한 경로를 사용하세요. `/tmp` 파일은 컨테이너를 삭제하면 사라집니다.
+
+### 호환성 검증 범위
+
+macOS ARM64의 OrbStack에서 Linux ARM64 컨테이너(Python 3.12.16, Streamlit 1.54.0)를 검증했습니다. 두 이미지 빌드와 `pip check`, 동시 실행, 뷰어의 12개 언어·직접 링크·일차 이동, 실습 파일 저장 후 반영을 확인했습니다. 한국어 예제의 위젯·폼·쿼리 파라미터·세션 상태·캐싱과 Day14 프로파일링, Day27 Elements 콜백, Day28 SHAP, Day29 회귀 테스트도 확인했습니다. Elements 버튼은 실제 브라우저에서, Monaco의 lazy/sync 데이터 전달은 컴포넌트 위젯 메시지를 통한 자동 테스트로 확인했습니다. 외부 서비스 전체, 모든 예제의 브라우저 조작, Linux AMD64 및 Windows 호스트는 검증하지 않았습니다.
+
+뷰어 회귀 테스트는 뷰어 의존성이 설치된 저장소 루트에서 `python -m unittest discover -s tests -p test_viewer.py`로 실행합니다. 확장 패키지 회귀 테스트를 포함한 전체 테스트는 패치가 적용된 실습 이미지에서 저장소 루트를 `/app`에 마운트하고 `python -m unittest discover -s tests`로 실행합니다.
 
 ## 언어별 안내
 

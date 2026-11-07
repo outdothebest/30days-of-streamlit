@@ -1,22 +1,39 @@
+import gettext
 import glob
 import os
 import re
+from pathlib import Path
 
 import pandas as pd
 import streamlit as st
-from streamlit.locale import gettext as _
+from viewer_i18n import choose_language
+from language_constants import LANGUAGE_FLAG_DICTIONARY
 from PIL import Image
 
 st.set_page_config(layout="wide")
 
-query_params = st.experimental_get_query_params()
-
-selected_language = st.session_state["language"]
+languages = sorted(path.name for path in Path("content").iterdir() if path.is_dir())
+if "language" not in st.session_state:
+    st.session_state.language = choose_language(
+        st.query_params.get("language"),
+        st.context.headers.get("Accept-Language", "en"),
+        languages,
+    )
 
 
 def update_params():
-    st.experimental_set_query_params(
-        challenge=st.session_state.day)
+    # Preserve unrelated parameters and keep language/day links shareable.
+    st.query_params["language"] = st.session_state.language
+    st.query_params["challenge"] = st.session_state.get("day", "Day1")
+
+
+selected_language = st.sidebar.selectbox(
+    "Language / 언어", languages, key="language", on_change=update_params,
+    format_func=lambda code: f"{LANGUAGE_FLAG_DICTIONARY.get(code, '')} {code}",
+)
+_ = gettext.translation(
+    "messages", localedir="locale", languages=[selected_language], fallback=True
+).gettext
 
 
 def format_day(label):
@@ -40,13 +57,11 @@ st.markdown(_("# 30 Days of Streamlit"))
 
 days_list = [f"Day{x}" for x in md_files]
 
-if query_params:
-    try:
-        selected_day = query_params["challenge"][0]
-        if selected_day in days_list:
-            st.session_state.day = selected_day
-    except KeyError:
-        st.session_state.day = days_list[0]
+requested_day = st.query_params.get("challenge")
+if requested_day in days_list:
+    st.session_state.day = requested_day
+elif st.session_state.get("day") not in days_list:
+    st.session_state.day = days_list[0]
 
 selected_day = st.selectbox(
     _("Start the Challenge 👇"), days_list, key="day", on_change=update_params,
@@ -90,7 +105,7 @@ st.sidebar.markdown(_(
 for day in days_list:
     if selected_day == day:
         st.markdown(_("# 🗓️ Which {day_num}").format(day_num=int(re.search(r'\d+', day).group())))
-        with open(f"content/{selected_language}/{day}.md", "r") as f:
+        with open(f"content/{selected_language}/{day}.md", "r", encoding="utf-8") as f:
             st.markdown(f.read())
         if os.path.isfile(f"content/{selected_language}/figures/{day}.csv"):
             st.markdown("---")
