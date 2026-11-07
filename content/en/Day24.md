@@ -19,104 +19,108 @@ You can simply add the `st.cache_data` decorator on the preceding line of a cust
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/dataprofessor/st.cache/)
 
 ## Code
-Here's how to use `st.cache_data`:
+
+Save this example as `day24.py` and run it with `streamlit run day24.py`. It uses `st.cache_data`, which is available in this repository's Streamlit 1.21.0 environment.
+
+Both calls use the same input and calculation and return the same small integer. The one-second `sleep()` simulates slow work, such as fetching data; it is an intentional teaching aid, not a benchmark of real computation.
+
 ```python
 import streamlit as st
-import numpy as np
-import pandas as pd
-from time import time
+from time import perf_counter, sleep
 
 st.title('st.cache_data')
 
-# Using cache
-a0 = time()
+def slow_calculation(n):
+  sleep(1)  # Simulate a slow data fetch or computation.
+  return sum(range(n))
+
+@st.cache_data(show_spinner=False)
+def cached_calculation(n):
+  return slow_calculation(n)
+
+n = st.number_input('Input', min_value=1, max_value=100000, value=10000)
+if st.button('Clear cached result'):
+  cached_calculation.clear()
+st.button('Rerun')
+
+start = perf_counter()
+cached_result = cached_calculation(n)
+cached_seconds = perf_counter() - start
+
+start = perf_counter()
+uncached_result = slow_calculation(n)
+uncached_seconds = perf_counter() - start
+
 st.subheader('Using st.cache_data')
+st.write('Result:', cached_result)
+st.info(f'Elapsed: {cached_seconds:.6f} seconds')
 
-@st.cache_data
-def load_data_a():
-  df = pd.DataFrame(
-    np.random.rand(2000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
-
-st.write(load_data_a())
-a1 = time()
-st.info(a1-a0)
-
-
-# Not using cache
-b0 = time()
-st.subheader('Not using st.cache_data')
-
-def load_data_b():
-  df = pd.DataFrame(
-    np.random.rand(2000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
-
-st.write(load_data_b())
-b1 = time()
-st.info(b1-b0)
+st.subheader('Without caching')
+st.write('Result:', uncached_result)
+st.info(f'Elapsed: {uncached_seconds:.6f} seconds')
+st.write('Results match:', cached_result == uncached_result)
 ```
 
 ## Line-by-line explanation
-The very first thing to do when creating a Streamlit app is to start by importing the `streamlit` library as `st` as well as other libraries used in the app like so:
+
+Import Streamlit and the timing functions, then set the app title. `perf_counter()` measures elapsed time with a high-resolution clock.
+
 ```python
 import streamlit as st
-import numpy as np
-import pandas as pd
-from time import time
+from time import perf_counter, sleep
+
+st.title('st.cache_data')
 ```
 
-This is followed by creating a title text for the app:
+`slow_calculation(n)` waits one second and sums the integers from `0` to `n - 1`. `cached_calculation(n)` calls that same function, so caching is the only difference between the two paths. The cached return value is a small integer, which keeps serialization and copying costs small. `show_spinner=False` disables the cache spinner so it does not add UI work to the timed call.
+
 ```python
-st.title('Streamlit Cache')
+def slow_calculation(n):
+  sleep(1)  # Simulate a slow data fetch or computation.
+  return sum(range(n))
+
+@st.cache_data(show_spinner=False)
+def cached_calculation(n):
+  return slow_calculation(n)
 ```
 
-Next, we'll define 2 custom functions for generating a large DataFrame where the first one makes use of the `st.cache_data` decorator while the second does not:
-```python
-@st.cache_data
-def load_data_a():
-  df = pd.DataFrame(
-    np.random.rand(1000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
+Choose an input and use **Rerun** to run the script again with that input. A Streamlit button triggers a rerun when clicked; it does not need to call a rerun API here. **Clear cached result** removes this function's cached values before the next call on that run.
 
-def load_data_b():
-  df = pd.DataFrame(
-    np.random.rand(1000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
+```python
+n = st.number_input('Input', min_value=1, max_value=100000, value=10000)
+if st.button('Clear cached result'):
+  cached_calculation.clear()
+st.button('Rerun')
 ```
 
-Finally, we run the custom function while also timing the run time using the `time()` command.
+Measure only the two function calls. The cached call includes the cache lookup and, on a miss, calculation and storage. Both paths use the same `n`. Keep all screen output outside these intervals.
+
 ```python
-# Using cache
-a0 = time()
+start = perf_counter()
+cached_result = cached_calculation(n)
+cached_seconds = perf_counter() - start
+
+start = perf_counter()
+uncached_result = slow_calculation(n)
+uncached_seconds = perf_counter() - start
+```
+
+After timing, show the results and elapsed seconds. `Results match: True` confirms that both calls returned the same value.
+
+```python
 st.subheader('Using st.cache_data')
+st.write('Result:', cached_result)
+st.info(f'Elapsed: {cached_seconds:.6f} seconds')
 
-# We insert the load_data_a function here
-
-st.write(load_data_a())
-a1 = time()
-st.info(a1-a0)
-
-# Not using cache
-b0 = time()
-st.subheader('Not using st.cache_data')
-
-# We insert the load_data_b function here
-
-st.write(load_data_b())
-b1 = time()
-st.info(b1-b0)
+st.subheader('Without caching')
+st.write('Result:', uncached_result)
+st.info(f'Elapsed: {uncached_seconds:.6f} seconds')
+st.write('Results match:', cached_result == uncached_result)
 ```
 
-Notice how the first run may provide roughly similar run time. Reload the app and notice how the run time changes when using the `st.cache_data` decorator. Did you observe any speed increase?
+On a **cold run** (no cached value for this input), both calls perform the one-second work. The cached call also stores its result, so it is not guaranteed to be faster on the first run.
+
+Keep the input unchanged and click **Rerun** several times. These **warm runs** reuse the cached result, while the uncached call still waits one second every time. Click **Clear cached result**, or choose an input that has not been cached, to observe another cold call. Returning to an already cached input can reuse its value. Changing the cached function's code also invalidates its cache. Exact timings depend on your environment; compare repeated warm calls rather than expecting a particular number of seconds.
 
 ## Further reading
 - [`st.cache_data` API Documentation](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_data)
