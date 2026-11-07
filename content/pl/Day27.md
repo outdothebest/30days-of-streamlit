@@ -39,7 +39,6 @@ Możesz użyć danych wygenerowanych z demo Nivo Bump, w zakładce „dane”: h
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # Jeśli chodzi o Streamlit Elements, to będziemy potrzebowali wszystkich elementów zaimportowanych poniżej.
 # Wszystkie dostępne elementy wraz z opisem użycia są udokumentowane tutaj: https://github.com/okld/streamlit-elements#getting-started
@@ -68,7 +67,10 @@ with st.sidebar:
 # Nowe dane zostaną odczytane przez wykres Nivo Bum, który się odświeży. 
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # Zdefiniujmy domyślne rozmieszczenie elementów na stronie.
 # Domyślnie siatka pulpitu będzie się składać z 12 kolumn.

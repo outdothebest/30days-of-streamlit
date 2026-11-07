@@ -39,7 +39,6 @@ Nivoバンプのデモから生成されたデータは、「データ」タブ�
 
 import json
 import streamlit as st
-from pathlib import Path
 
 #Streamlit Elementsでは、これらすべてのオブジェクトが必要になります。
 #利用可能なすべてのオブジェクトと使用法については、こちらを参照してください。https://github.com/okld/streamlit-elements#getting-started
@@ -68,7 +67,10 @@ with st.sidebar:
 # Nivoバンプチャートがそれを読み取ってデータを描画します。
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 #デフォルトのダッシュボードレイアウトを定義します。
 #ダッシュボードグリッドはデフォルトで12列あります。

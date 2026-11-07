@@ -39,7 +39,6 @@ pip install "streamlit-elements==0.1.*"
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # 然后我们需要 Streamlit Elements 中的这些对象
 # 有关全部对象及其用法的说明请见：https://github.com/okld/streamlit-elements#getting-started
@@ -68,7 +67,10 @@ with st.sidebar:
 # 然后会被读入至 Nivo Bump 图并将其绘制出来
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # 定义默认的仪表盘布局
 # 默认情况下仪表盘会分为 12 列

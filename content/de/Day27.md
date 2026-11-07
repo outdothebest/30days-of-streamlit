@@ -39,7 +39,6 @@ Man kann die von der Nivo Bump-Demo generierten Daten auf dem "Daten"-Tab verwen
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # Was Streamlit Elements betrifft, brauchen wir alle diese Objekte.
 # Alle verfügbaren Objekte und ihre Verwendung sind dort aufgeführt: https://github.com/okld/streamlit-elements#getting-started
@@ -69,7 +68,10 @@ with st.sidebar:
 
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # Ein Standardlayout für das Dashboard festlegen.
 # Das Dashboard-Gitter hat standardmäßig 12 Spalten.

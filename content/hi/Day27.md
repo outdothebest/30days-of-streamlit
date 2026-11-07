@@ -40,7 +40,6 @@ pip install "streamlit-elements==0.1.*"
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # Streamlit एलिमेंट्स के लिए, हमें इन सभी ऑब्जेक्ट्स की आवश्यकता होगी.
 # सभी उपलब्ध ऑब्जेक्ट्स और उनका उपयोग वहां सूचीबद्ध है: https://github.com/okld/streamlit-elements#getting-started
@@ -69,7 +68,10 @@ with st.sidebar:
 # और इसे डेटा निकालने के लिए Nivo Bump चार्ट द्वारा पढ़ा जाएगा.
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # एक डिफ़ॉल्ट डैशबोर्ड लेआउट परिभाषित करें.
 # Dashboard grid has 12 columns by default.

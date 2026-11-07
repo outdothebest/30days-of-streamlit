@@ -41,7 +41,6 @@ pip install "streamlit-elements==0.1.*"
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # Что касается элементов Streamlit, то нам понадобятся все эти объекты.
 # Здесь перечислены все доступные объекты и их использование: https://github.com/okld/streamlit-elements#getting-started
@@ -70,7 +69,10 @@ with st.sidebar:
 # редактор кода изменится, и он будет прочитан диаграммой Nivo Bump для извлечения данных.
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # Определите макет панели инструментов по умолчанию.
 # Сетка панели инструментов по умолчанию имеет 12 столбцов.

@@ -39,7 +39,6 @@ Puede usar los datos generados a partir de la demostración de Nivo Bump, en la 
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # En cuanto a Streamlit Elements, necesitaremos todos estos objetos.
 # Todos los objetos disponibles y su uso se enumeran aquí: https://github.com/okld/streamlit-elements#getting-started
@@ -68,7 +67,10 @@ with st.sidebar:
 # editor de código cambie, y el gráfico Nivo Bump lo leerá para dibujar los datos.
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # Defina un diseño de tablero predeterminado.
 # La grilla tiene 12 columnas por defecto.

@@ -39,7 +39,6 @@ Pour cette application, vous pouvez récupérer des données d'exemple depuis la
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # Voici les imports de Streamlit Elements dont nous aurons besoin.
 # Vous pouvez retrouver une description détaillée de chaque élément ici:
@@ -70,7 +69,10 @@ with st.sidebar:
 # le graphique les récupèrera et les affichera.
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # Disposition des fenêtre du dashboard.
 # Les éléments du dashboard sont disposés sur une grille de 12 colonnes par défaut.
