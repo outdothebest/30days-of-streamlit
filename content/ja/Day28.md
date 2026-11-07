@@ -32,11 +32,11 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
@@ -117,7 +117,7 @@ st.set_page_config(layout="wide")
 次に、`shap`ライブラリからデータセットを読み込みます。
 
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 ```
@@ -125,7 +125,7 @@ def load_data():
 続いて、`X, y`マトリックスペアを入力として取り込むための`load_model`という関数を定義し、データをtrain/testセットに分割して`DMatrix`を構築し、XGBoostモデルを構築します。
 
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)

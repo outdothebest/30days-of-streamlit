@@ -30,11 +30,11 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
@@ -109,16 +109,16 @@ Next, we'll set the page layout to be wide such that contents in the Streamlit a
 st.set_page_config(layout="wide")
 ```
 
-Then, we'll load in a dataset from the `shap` library:
+Then, we'll load in a dataset from the `shap` library. `st.cache_data` serializes return values and returns a copy on each call. Both the dataset and the trained XGBoost model use this decorator to preserve the copy behavior of `st.experimental_memo`. It is available in Streamlit 1.18 and later:
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 ```
 
 Subsequently, we'll definite a function called `load_model` for taking in the `X, y` matrix pair as input, perform data splitting to train/test sets, constructing a `DMatrix` and build an XGBoost model.
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)

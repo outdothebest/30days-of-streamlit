@@ -32,11 +32,11 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
@@ -113,10 +113,10 @@ import pandas as pd
 st.set_page_config(layout="wide")
 ```
 
-그런 다음 `shap` 라이브러리에서 데이터셋을 불러옵니다.
+그런 다음 `shap` 라이브러리에서 데이터셋을 불러옵니다. `st.cache_data`는 함수의 반환값을 직렬화해 캐시하고 호출마다 복사본을 반환합니다. 데이터와 학습된 XGBoost 모델 모두 기존 `st.experimental_memo`의 복사 동작을 유지하도록 이 데코레이터를 사용합니다. `st.cache_data`는 Streamlit 1.18 이상에서 사용할 수 있습니다.
 
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_data():
     return shap.datasets.adult()
 ```
@@ -124,7 +124,7 @@ def load_data():
 이어서 `X, y` 행렬 쌍을 입력받고, 데이터를 학습용과 테스트용으로 나누고, `DMatrix`를 구성한 뒤 XGBoost 모델을 만드는 `load_model` 함수를 정의합니다.
 
 ```python
-@st.experimental_memo
+@st.cache_data
 def load_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=7)
     d_train = xgboost.DMatrix(X_train, label=y_train)
