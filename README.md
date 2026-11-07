@@ -62,7 +62,43 @@ docker compose up --build -d
 
 기본 포트가 사용 중이면 `STREAMLIT_PORT=8503 docker compose up --build -d`로 실행하고 [http://localhost:8503](http://localhost:8503)을 엽니다. 로그는 `docker compose logs -f streamlit`으로 확인하고, 종료할 때는 저장소 루트에서 `docker compose down`을 실행합니다.
 
-강의 뷰어 이미지는 Python 3.11과 저장소에 포함된 다국어 Streamlit wheel을 사용합니다. 위의 Python 3.12 코드 실습 환경과는 별도로 실행됩니다.
+강의 뷰어 이미지는 Python 3.11과 저장소에 포함된 다국어 Streamlit 1.21.0 wheel을 사용합니다. 실습 이미지는 Python 3.12와 Streamlit 1.54.0을 사용합니다. 버전 통일은 [이슈 #38](https://github.com/outdothebest/30days-of-streamlit/issues/38)에서 별도로 진행하며, 현재 두 환경의 버전은 다릅니다. 강의 코드 전체가 실습 버전에서 호환된다고 보장하지 않습니다. 구형 API나 확장 패키지를 사용하는 예제는 해당 일차의 안내와 실습 로그를 함께 확인하세요.
+
+## 강의를 보면서 실습하기
+
+터미널 두 개를 열어 각각 다음 위치에서 시작합니다. 아래 명령의 `STREAMLIT_PORT`는 해당 명령에만 적용됩니다.
+
+| 터미널 위치 | 시작 명령 | 브라우저 탭 |
+| --- | --- | --- |
+| 저장소 루트 | `STREAMLIT_PORT=8502 docker compose up --build -d` | [강의 뷰어](http://localhost:8502) |
+| `examples/docker` | `STREAMLIT_PORT=8501 docker compose up --build -d` | [코드 실습 앱](http://localhost:8501) |
+
+강의 탭에서 언어와 일차를 선택하고, 실습 탭을 나란히 열어 두세요. **강의 화면의 코드는 자동 실행되지 않습니다.** 호스트의 편집기로 `examples/docker/app.py`에 코드를 옮겨 작성하고 저장한 뒤 실습 탭에서 결과를 확인합니다. 실습 앱은 파일 변경을 감지해 다시 실행합니다. 강의 탭을 새로고침하는 것만으로 실습 코드는 바뀌지 않습니다.
+
+두 Compose 설정은 모두 `STREAMLIT_PORT`를 호스트 포트로 사용합니다. 셸에서 `export STREAMLIT_PORT=8503`처럼 전역으로 지정하거나 각 폴더의 `.env`에 같은 값을 넣으면 두 앱이 같은 포트를 점유하려 해 충돌할 수 있습니다. 위처럼 명령별로 다른 값을 지정하세요. 기본 포트가 이미 사용 중이면 뷰어는 `STREAMLIT_PORT=18502`, 실습은 `STREAMLIT_PORT=18501`로 실행하고 각각의 포트로 접속합니다. 컨테이너 내부 포트는 두 앱 모두 8501이며 변경할 필요가 없습니다.
+
+### 파일 편집과 저장 위치
+
+읽기 전용 마운트는 **컨테이너에서 호스트 파일에 쓰는 것을 제한**합니다. 호스트 편집기에서는 파일을 수정하고 저장할 수 있습니다.
+
+- 뷰어는 `content/`와 `locale/`을 읽기 전용으로 마운트합니다. 호스트에서 강의 자료를 수정한 뒤 강의 탭을 새로고침합니다.
+- 실습은 `examples/docker/` 전체를 `/app`에 읽기 전용으로 마운트합니다. 호스트에서 `app.py`나 입력 데이터를 편집할 수 있지만, 앱이 `open("result.csv", "w")` 또는 `df.to_csv("result.csv")`처럼 `/app` 아래에 파일을 쓰면 실패합니다. 하위 디렉터리를 만드는 코드도 같은 제약을 받습니다.
+- 중간 결과는 `tempfile.TemporaryDirectory()` 등으로 `/tmp`에 저장하세요. 컨테이너가 제거되면 사라질 수 있으므로 영구 보관용으로 사용하지 않습니다. 결과를 사용자 PC에 보관하려면 메모리에서 CSV 등을 만든 뒤 `st.download_button`으로 내려받을 수 있습니다. 비밀 키나 사용자 데이터를 저장소에 넣지 마세요.
+
+### 각각 종료하기
+
+| 터미널 위치 | 종료 명령 | 효과 |
+| --- | --- | --- |
+| 저장소 루트 | `docker compose down` | 강의 뷰어 컨테이너와 해당 Compose 네트워크 제거 |
+| `examples/docker` | `docker compose stop` | 실습 컨테이너 정지; 다음에 `docker compose up -d`로 재시작 |
+
+각 명령은 해당 폴더의 앱에 적용됩니다. 시작할 때 `-p`로 프로젝트 이름을 지정했다면 종료할 때도 같은 이름을 지정하세요. 포트 충돌로 시작하지 못한 앱도 해당 폴더에서 종료 명령으로 정리할 수 있습니다.
+
+### 검증 범위
+
+2026-11-08, macOS ARM64 + OrbStack(Linux aarch64)에서 두 이미지를 빌드 캐시를 사용해 빌드하고, 기존 서비스와 겹치지 않는 포트 18537(뷰어)·18538(실습)에서 동시에 실행했습니다. 실제 설치 버전은 뷰어 Python 3.11.18 / Streamlit 1.21.0, 실습 Python 3.12.16 / Streamlit 1.54.0이었습니다. 브라우저 두 탭에서 한국어 강의 표시와 호스트의 `app.py` 저장 후 실습 화면 자동 반영을 확인했습니다. 동일한 호스트 포트 18537로 실습 앱을 추가 시작하면 `port is already allocated`로 실패하는 것을 재현했고, 서로 다른 포트에서는 두 앱이 healthy 상태였습니다. 뷰어의 `down`과 실습의 `stop`도 실행했습니다. 실습 컨테이너의 `/app` 쓰기 실패와 `tempfile.TemporaryDirectory()` 안의 파일 저장·읽기를 확인했습니다.
+
+모든 일차 예제·확장 패키지, 다운로드 버튼의 실제 다운로드, 다른 운영체제·CPU, 캐시 없는 전체 빌드는 이번 문서 작업에서 검증하지 않았습니다. 버전 변경 후에는 해당 동작을 다시 확인해야 합니다.
 
 ## 언어별 안내
 
