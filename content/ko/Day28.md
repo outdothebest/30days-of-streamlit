@@ -5,6 +5,7 @@
 이 라이브러리는 [Streamlit 문서](https://docs.streamlit.io/) 웹사이트를 관리하는 Streamlit 직원 [Snehan Kekre](https://github.com/snehankekre)가 개발했습니다.
 
 먼저 Streamlit을 설치한 뒤(물론 필요하겠죠!), pip로 `streamlit-shap` 라이브러리를 설치합니다.
+
 ```bash
 pip install streamlit
 pip install streamlit-shap
@@ -19,6 +20,7 @@ pip install streamlit-shap
 
 ## 코드
 `streamlit-shap`은 다음과 같이 사용합니다.
+
 ```python
 import streamlit as st
 from streamlit_shap import st_shap
@@ -94,6 +96,7 @@ with st.expander('Force plot'):
 
 ## 코드 한 줄씩 살펴보기
 Streamlit 앱을 만들 때 가장 먼저 할 일은 다음과 같이 `streamlit` 라이브러리를 `st`라는 이름으로 가져오는 것입니다.
+
 ```python
 import streamlit as st
 from streamlit_shap import st_shap
@@ -105,11 +108,13 @@ import pandas as pd
 ```
 
 다음으로 Streamlit 앱의 내용이 페이지 전체 너비를 사용할 수 있도록 페이지 레이아웃을 넓게 설정합니다.
+
 ```python
 st.set_page_config(layout="wide")
 ```
 
 그런 다음 `shap` 라이브러리에서 데이터셋을 불러옵니다.
+
 ```python
 @st.experimental_memo
 def load_data():
@@ -117,6 +122,7 @@ def load_data():
 ```
 
 이어서 `X, y` 행렬 쌍을 입력받고, 데이터를 학습용과 테스트용으로 나누고, `DMatrix`를 구성한 뒤 XGBoost 모델을 만드는 `load_model` 함수를 정의합니다.
+
 ```python
 @st.experimental_memo
 def load_model(X, y):
@@ -136,11 +142,13 @@ def load_model(X, y):
 ```
 
 다음으로 Streamlit 앱의 제목을 표시합니다.
+
 ```python
 st.title("`streamlit-shap` for displaying SHAP plots in a Streamlit app")
 ```
 
 앱에 대한 자세한 정보를 제공하는 소개용 펼침 상자를 만듭니다.
+
 ```python
 with st.expander('About the app'):
     st.markdown('''[`streamlit-shap`](https://github.com/snehankekre/streamlit-shap) is a Streamlit component that provides a wrapper to display [SHAP](https://github.com/slundberg/shap) plots in [Streamlit](https://streamlit.io/). 
@@ -149,6 +157,7 @@ with st.expander('About the app'):
 ```
 
 여기서는 입력 데이터의 제목과 함께 `X`, `y` 변수를 보여 주는 펼침 상자를 표시합니다.
+
 ```python
 st.header('Input data')
 X,y = load_data()
@@ -163,11 +172,13 @@ with st.expander('y'):
 ```
 
 이어서 표시할 SHAP 출력의 제목을 작성합니다.
+
 ```python
 st.header('SHAP output')
 ```
 
 앞서 구현한 `load_model` 함수로 XGBoost 모델을 만듭니다.
+
 ```python
 # train XGBoost model
 X,y = load_data()
@@ -177,6 +188,7 @@ model = load_model(X, y)
 ```
 
 여기서는 SHAP 값을 계산한 다음, 그 값으로 Waterfall 그래프와 Beeswarm 그래프를 만듭니다.
+
 ```python
 # compute SHAP values
 explainer = shap.Explainer(model, X)
@@ -189,6 +201,7 @@ with st.expander('Beeswarm plot'):
 ```
 
 마지막으로 `shap.TreeExplainer` 명령의 Tree SHAP 알고리즘으로 트리 앙상블 모델의 출력을 설명하고, `shap.force_plot` 명령으로 시각화합니다.
+
 ```python
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(X)
