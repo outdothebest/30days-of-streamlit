@@ -12,7 +12,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && python -c "import pathlib, shap, shutil; p = pathlib.Path(shap.__file__).parent / 'cached_data'; p.mkdir(exist_ok=True); shutil.chown(p, user='app', group='app')"
 COPY patch_elements.py /tmp/patch_elements.py
-RUN python /tmp/patch_elements.py && chown -R app:app /home/app
+COPY patch_profiling.py /tmp/patch_profiling.py
+RUN python /tmp/patch_elements.py && python /tmp/patch_profiling.py && chown -R app:app /home/app
 USER app
 EXPOSE 8501
 CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true", "--server.runOnSave=true", "--server.fileWatcherType=poll", "--browser.gatherUsageStats=false"]

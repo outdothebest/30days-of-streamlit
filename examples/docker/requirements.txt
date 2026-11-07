@@ -1,4 +1,4 @@
-# ydata-profiling uses pkg_resources, removed in setuptools 81.
+# patch_profiling.py removes ydata-profiling's runtime pkg_resources dependency.
 setuptools==84.1.0
 streamlit==1.51.0
 numpy==1.26.4
