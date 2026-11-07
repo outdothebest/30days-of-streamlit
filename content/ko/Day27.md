@@ -9,7 +9,7 @@ Streamlit Elements는 [okld](https://github.com/okld)가 만든 서드파티 컴
 먼저 사용 중인 환경에 Streamlit Elements를 설치합니다.
 
 ```bash
-pip install streamlit-elements==0.1.*
+pip install "streamlit-elements==0.1.*"
 ```
 
 향후 버전에서 기존 코드와 호환되지 않는 API 변경이 생길 수 있으므로 버전을 `0.1.*`로 고정하는 것이 좋습니다.

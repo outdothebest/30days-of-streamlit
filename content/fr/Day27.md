@@ -9,7 +9,7 @@ Streamlit Elements est une extension pour Streamlit créée par [okld](https://g
 Commencez par installer Streamlit Elements dans votre environnement Python :
 
 ```python
-pip install streamlit-elements==0.1.*
+pip install "streamlit-elements==0.1.*"
 ```
 
 Il est recommandé de fixer la version à `0.1.*`. L'extension étant encore à ses débuts, les versions ultérieures pourront introduire des changements d'API incompatibles avec les versions précédentes. 
