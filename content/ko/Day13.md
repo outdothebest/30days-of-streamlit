@@ -1,12 +1,15 @@
-# 클라우드 개발 환경 시작하기
+# 익숙한 환경에서 실습 이어가기
 
-### GitPod
-클라우드에서 개발 환경을 시작하려면 [GitPod](https://www.gitpod.io/)를 사용할 수 있습니다. 다음 링크를 클릭하기만 하면 됩니다.
-- 사용해 보기 👉 https://gitpod.io/#/https://github.com/dataprofessor/streamlit101/
+앞으로의 챌린지도 [1일차](https://github.com/outdothebest/30days-of-streamlit/blob/main/content/ko/Day1.md)에서 준비한 실습 폴더를 사용합니다. 새 환경을 만들거나 패키지를 직접 설치할 필요가 없습니다.
 
-위 URL에서 볼 수 있듯이 `https://gitpod.io/#/` 뒤에 GitHub 저장소 URL이 붙어 있습니다. GitPod는 이 GitHub 저장소에 들어 있는 지침에 따라 개발 환경을 시작합니다. 구체적으로는 설치할 Python 라이브러리를 나열한 `requirements.txt` 파일을 사용합니다.
+앱이 종료되어 있다면 실습 폴더에서 다음 명령으로 시작하세요.
 
-> 참고: 다음과 같은 유사한 클라우드 개발 환경도 있습니다.
-> - [GitHub Codespaces](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/setting-up-your-python-project-for-codespaces)
-> - [Replit](https://replit.com/)
-> - [Cloud9](https://aws.amazon.com/cloud9/)
+```bash
+docker compose up -d
+```
+
+`app.py`를 수정하고 저장한 뒤 [http://localhost:8501](http://localhost:8501)에서 결과를 확인합니다.
+
+## 선택: 클라우드 편집기
+
+다른 컴퓨터에서 코드를 작성하고 싶다면 [GitHub Codespaces](https://github.com/features/codespaces) 같은 클라우드 편집기도 살펴볼 수 있습니다. 기본 실습에는 필요하지 않습니다.
