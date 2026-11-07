@@ -8,7 +8,7 @@ from importlib.metadata import version
 from importlib.util import find_spec
 from pathlib import Path
 
-assert version("streamlit") == "1.51.0"
+assert version("streamlit") == "1.54.0"
 assert version("streamlit-elements") == "0.1.0"
 frame = Path(find_spec("streamlit_elements").origin).parent / "core" / "frame.py"
 source = frame.read_text(encoding="utf-8")

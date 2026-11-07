@@ -1,7 +1,9 @@
 # patch_profiling.py removes ydata-profiling's runtime pkg_resources dependency.
 setuptools==84.1.0
-streamlit==1.51.0
+streamlit==1.54.0
 numpy==1.26.4
+# PyArrow 26 requires NumPy 2; the profiling/SHAP stack uses NumPy 1.
+pyarrow<26
 pandas==2.2.3
 altair==5.5.0
 requests==2.33.0
