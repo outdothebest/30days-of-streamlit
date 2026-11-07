@@ -1,10 +1,10 @@
 # 실습 환경 준비하기
 
-Streamlit 코드를 작성하고 바로 화면에서 확인할 수 있는 실습 환경을 준비합니다. Python이나 conda를 따로 설치할 필요가 없습니다.
+Mac에서 Streamlit 코드를 작성하고 바로 화면에서 확인할 수 있는 실습 환경을 준비합니다. Python이나 conda를 따로 설치할 필요가 없습니다.
 
 ## 처음 한 번 준비하기
 
-1. 편집기(예: VS Code)와 [Docker Desktop](https://www.docker.com/products/docker-desktop/)을 설치하고 실행합니다. 이미 Docker와 Compose를 사용하고 있다면 그대로 사용하세요.
+1. Mac에 편집기(예: VS Code)와 [OrbStack](https://orbstack.dev/download)을 설치하고 OrbStack을 실행합니다. 실습에 필요한 Docker와 Compose가 함께 제공되므로 따로 설치할 필요가 없습니다.
 2. [실습 자료 ZIP](https://github.com/outdothebest/30days-of-streamlit/archive/refs/heads/main.zip)을 내려받아 압축을 풉니다.
 3. 압축을 푼 자료의 `examples/docker` 폴더를 편집기로 열고, 그 폴더에서 터미널을 엽니다.
 
@@ -28,7 +28,7 @@ docker compose stop
 
 ## 실행이 잘되지 않을 때
 
-- Docker가 실행 중인지, 터미널이 `examples/docker` 폴더에 열려 있는지 확인하세요.
+- OrbStack이 실행 중인지, 터미널이 `examples/docker` 폴더에 열려 있는지 확인하세요.
 - 첫 실행 중에는 파일 다운로드가 끝날 때까지 기다렸다가 브라우저를 새로고침하세요.
 - 이미 다른 앱이 `8501`을 사용하고 있다면 그 앱을 종료한 뒤 시작하세요.
 - 오류가 계속되면 `docker compose logs streamlit`으로 메시지를 확인하세요.
