@@ -2,4 +2,4 @@
 langcodes==3.3.0
 language-data==1.1
 numpy==1.26.4
-pyarrow==17.0.0
+pyarrow==23.0.1
