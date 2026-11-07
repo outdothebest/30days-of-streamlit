@@ -8,7 +8,7 @@ Streamlit Elements [okld](https://github.com/okld) द्वारा बना�
 पहला कदम आपके इन्वायरमेंट में Streamlit Elements को इंस्टॉल करना है:
 
 ```bash
-pip install streamlit-elements==0.1.*
+pip install "streamlit-elements==0.1.*"
 ```
 
 वर्शन को `0.1.*` पर पिन करने की अनुशंसा की जाती है, क्योंकि भविष्य के वर्ज़न में ब्रेकिंग API परिवर्तन हो सकते हैं|

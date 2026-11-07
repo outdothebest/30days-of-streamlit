@@ -9,7 +9,7 @@ Streamlit Elements 是一个由 [okld](https://github.com/okld) 制作的第三�
 第一步要做的就是将 Streamlit Elements 安装到你的环境中：
 
 ```bash
-pip install streamlit-elements==0.1.*
+pip install "streamlit-elements==0.1.*"
 ```
 
 我们推荐你将其版本固定到 `0.1.*`，因为此后的版本中可能引入变动破坏 API 向后兼容性。

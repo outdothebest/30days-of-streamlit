@@ -9,7 +9,7 @@ O Streamlit Elements é um componente de terceiros feito por [okld](https://gith
 O primeiro passo é instalar o Streamlit Elements em seu ambiente:
 
 ```bash
-pip install streamlit-elements==0.1.*
+pip install "streamlit-elements==0.1.*"
 ```
 
 É recomendado (para este tutorial) fixar a versão em `0.1.*`, pois versões futuras podem apresentar alterações de API importantes.

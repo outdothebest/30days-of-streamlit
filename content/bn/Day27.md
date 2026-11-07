@@ -9,7 +9,7 @@ Streamlit Elements হল [okld](https://github.com/okld) দ্বারা ত
 প্রথম ধাপ হল আপনার পরিবেশে স্ট্রিমলিট  উপাদানগুলি ইনস্টল করা:
 
 ```bash
-pip install streamlit-elements==0.1.*
+pip install "streamlit-elements==0.1.*"
 ```
 
 ভার্সনটিকে `০.১ .*`-এ পিন করার পরামর্শ দেওয়া হচ্ছে, কারণ ভবিষ্যত ভার্সনগুলি ব্রেকিং API পরিবর্তন আনতে পারে।
