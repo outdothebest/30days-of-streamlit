@@ -128,7 +128,7 @@ st.write(c)
 
 ## 다음 단계
 
-로컬에서 Streamlit 앱을 만들었으니 이제 [Streamlit Community Cloud](https://streamlit.io/cloud)에 배포할 차례입니다. 배포 방법은 곧 이어지는 챌린지에서 설명합니다.
+다음 챌린지도 같은 실습 폴더의 `app.py`에서 이어갑니다. 앱을 다른 사람과 공유하고 싶다면 7일차의 선택 과정인 Streamlit Community Cloud 배포를 살펴보세요.
 
 이번 주는 챌린지의 첫 주이므로 전체 코드(위 코드 상자 참고)와 해답(데모 앱)을 이 웹페이지에서 바로 제공합니다.
 

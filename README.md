@@ -1,5 +1,7 @@
 # 30days of Streamlit
 
+한국어 실습은 준비된 환경에서 코드 작성부터 시작합니다. [실습 환경 준비하기](content/ko/Day1.md)를 참고하세요.
+
 * [English](readmes/en/README.md)
 * [বাংলা](readmes/bn/README.md)
 * [Deutsch](readmes/de/README.md)

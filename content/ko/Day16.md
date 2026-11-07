@@ -1,6 +1,6 @@
 # Streamlit 앱의 테마 사용자 지정하기
 
-앱과 같은 폴더 안의 `.streamlit` 폴더에 저장된 설정 파일인 `config.toml`의 매개변수를 조정하여 테마를 사용자 지정할 수 있습니다.
+실습 폴더에 준비된 `.streamlit/config.toml`을 편집기로 열고 색상과 글꼴을 바꾸어 테마를 사용자 지정할 수 있습니다.
 
 ## 무엇을 만들까요?
 
@@ -11,7 +11,7 @@
 [![Streamlit 앱](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/dataprofessor/streamlit-custom-theme/)
 
 ## 코드
-[`streamlit_app.py`](https://github.com/dataprofessor/streamlit-custom-theme/blob/master/streamlit_app.py) 파일의 코드는 다음과 같습니다.
+실습 폴더의 `app.py`에 다음 코드를 저장하세요.
 ```python
 import streamlit as st
 
@@ -32,8 +32,8 @@ number = st.sidebar.slider('Select a number:', 0, 10, 5)
 st.write('Selected number from slider widget is:', number)
 ```
 
-[`.streamlit/config.toml`](https://github.com/dataprofessor/streamlit-custom-theme/blob/master/.streamlit/config.toml) 파일의 코드는 다음과 같습니다.
-```python
+실습 폴더의 `.streamlit/config.toml`에 다음 테마 설정을 저장하세요. 기존의 다른 설정은 그대로 두고 `[theme]` 부분을 추가하거나 수정합니다. 저장한 뒤 브라우저에서 변경된 색상을 확인하세요.
+```toml
 [theme]
 primaryColor="#F39C12"
 backgroundColor="#2E86C1"
@@ -76,7 +76,7 @@ st.write('Selected number from slider widget is:', number)
 이제 `.streamlit/config.toml` 파일에 지정하여 앱에 사용한 사용자 지정 색상을 살펴보겠습니다.
 - `primaryColor="#F39C12"` - 기본 색상을 주황색으로 설정합니다. 슬라이더 위젯의 주황색을 확인해 보세요.
 - `backgroundColor="#2E86C1"` - 배경색을 파란색으로 설정합니다. 메인 패널의 배경색이 파란색인 것을 확인해 보세요.
-- `secondaryBackgroundColor="#AED6F1"` - 보조 배경색을 짙은 회색으로 설정합니다. 사이드바의 회색 배경색과 메인 패널에 있는 코드 상자의 배경색을 확인해 보세요.
+- `secondaryBackgroundColor="#AED6F1"` - 보조 배경색을 연한 파란색으로 설정합니다. 사이드바와 메인 패널에 있는 코드 상자의 배경색을 확인해 보세요.
 - `textColor="#FFFFFF"` - 텍스트 색상을 흰색으로 설정합니다.
 - `font="monospace"` - 글꼴을 monospace로 설정합니다.
 

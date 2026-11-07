@@ -4,14 +4,7 @@
 
 ## 데모 앱
 
-이 독립 실행 예제에는 Streamlit 1.30.0 이상이 필요합니다. 이 저장소의 튜토리얼 뷰어는 번들 Streamlit 1.21.0을 사용하므로 별도의 Python 환경에서 실행하세요.
-
-아래 전체 코드를 `day23.py`로 저장한 뒤 실행합니다.
-
-```sh
-python -m pip install "streamlit>=1.30.0"
-python -m streamlit run day23.py
-```
+필요한 Streamlit 버전은 실습 환경에 준비되어 있습니다. 아래 전체 코드를 실습 폴더의 `app.py`에 저장하세요.
 
 1. 쿼리 매개변수 없이 [http://localhost:8501](http://localhost:8501)에 접속하면 두 이름을 입력하는 방법을 안내합니다.
 2. [두 이름을 포함한 URL](http://localhost:8501/?firstname=Jack&surname=Beanstalk)에 접속하면 인사말을 표시합니다.

@@ -4,14 +4,7 @@
 
 이 라이브러리는 [Streamlit 문서](https://docs.streamlit.io/) 웹사이트를 관리하는 Streamlit 직원 [Snehan Kekre](https://github.com/snehankekre)가 개발했습니다.
 
-먼저 Streamlit을 설치한 뒤(물론 필요하겠죠!), pip로 `streamlit-shap` 라이브러리를 설치합니다.
-
-```bash
-pip install streamlit
-pip install streamlit-shap
-```
-
-아직 설치하지 않았다면 다른 필수 라이브러리(예: `matplotlib`, `pandas`, `scikit-learn`, `xgboost`)도 설치해야 합니다.
+필요한 `streamlit-shap`, SHAP, XGBoost 등의 라이브러리는 실습 환경에 준비되어 있습니다. 아래 전체 코드를 `app.py`에 저장하세요. 처음에는 예제 데이터를 내려받고 모델을 학습하므로 시간이 걸릴 수 있습니다.
 
 
 ## 데모 앱

@@ -57,7 +57,7 @@ st.write('Your favorite color is ', option)
 ```
 
 ## 다음 단계
-로컬에서 Streamlit 앱을 만들었으니 이제 [Streamlit Community Cloud](https://streamlit.io/cloud)에 배포할 차례입니다.
+다음 챌린지도 같은 실습 폴더의 `app.py`에서 이어갑니다. 앱을 공유하고 싶다면 7일차의 선택 과정인 Streamlit Community Cloud 배포를 살펴보세요.
 
 ## 참고 자료
 [`st.selectbox`](https://docs.streamlit.io/library/api-reference/widgets/st.selectbox)에 관해 더 알아보세요.

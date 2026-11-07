@@ -4,15 +4,9 @@ Streamlit Elements는 [okld](https://github.com/okld)가 만든 서드파티 컴
 
 ## 사용 방법
 
-### 설치
+### 실습 준비
 
-먼저 사용 중인 환경에 Streamlit Elements를 설치합니다.
-
-```bash
-pip install "streamlit-elements==0.1.*"
-```
-
-향후 버전에서 기존 코드와 호환되지 않는 API 변경이 생길 수 있으므로 버전을 `0.1.*`로 고정하는 것이 좋습니다.
+Streamlit Elements는 실습 환경에 준비되어 있습니다. 아래 전체 코드를 `app.py`에 저장하세요. 초기 데이터도 코드에 포함되어 있어 별도 파일을 준비할 필요가 없습니다.
 
 ### 사용법
 

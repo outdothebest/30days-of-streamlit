@@ -6,7 +6,9 @@
 
 ## 참여 방법
 
-참여에 필요한 것은 컴퓨터, Python에 대한 기초 지식, 그리고 호기심뿐입니다. 🧠
+Mac과 편집기, OrbStack, Python에 대한 기초 지식이 있으면 시작할 수 있습니다. Python이나 conda를 따로 설치할 필요는 없습니다. [1일차의 짧은 준비 안내](../../content/ko/Day1.md)를 따라 실습 환경을 실행한 뒤, `app.py`에 코드를 작성하고 저장해 보세요. 🧠
+
+이 한국어 과정은 설치 작업을 줄이기 위해 준비된 실습 환경을 사용합니다. 원본 강의와 준비 절차가 다르며, Streamlit 기능과 예제를 배우는 흐름은 유지합니다.
 
 매일 새로운 챌린지가 Streamlit의 [Twitter](https://twitter.com/streamlit)와 [LinkedIn](https://www.linkedin.com/company/streamlit/posts/?feedView=all) 계정, 그리고 [`#30DaysOfStreamlit` 앱](https://share.streamlit.io/streamlit/30days/)에 공개됩니다.
 
@@ -20,7 +22,7 @@
 
 | 초급 (1~7일차) | 중급 (8~23일차) | 고급 (24~30일차) |
 | :---        |    :----   |          :--- |
-| 로컬과 클라우드의 코딩 환경을 설정하고, Streamlit을 설치한 뒤 첫 Streamlit 앱을 만듭니다. | 매일 새로운 [Streamlit 명령](https://docs.streamlit.io/library/api-reference)을 배우고, 이를 사용해 간단한 Streamlit 앱을 만들고 배포합니다. | 세션 상태, 캐싱을 통한 효율적인 데이터 및 메모리 관리, 복잡한 레이아웃 등 중요한 주제를 배웁니다. |
+| 준비된 실습 환경을 시작하고 첫 Streamlit 앱을 만듭니다. 앱 공유와 클라우드 배포는 선택 과정입니다. | 매일 새로운 [Streamlit 명령](https://docs.streamlit.io/library/api-reference)을 배우고, 이를 사용해 간단한 Streamlit 앱을 만들고 배포합니다. | 세션 상태, 캐싱을 통한 효율적인 데이터 및 메모리 관리, 복잡한 레이아웃 등 중요한 주제를 배웁니다. |
 
 ## 상품
 
@@ -38,7 +40,7 @@
 
 ## 14일차: 프로파일링 예제
 
-[14일차 학습 자료](../../content/ko/Day14.md)는 `streamlit_pandas_profiling`과 함께 `ydata-profiling`의 `ProfileReport`를 사용합니다. 컴포넌트 제작자의 README에는 이전 `pandas_profiling` API 예제가 있으므로, 설치 명령과 예제 코드는 이 학습 자료를 따라 주세요.
+[14일차 학습 자료](../../content/ko/Day14.md)는 `ydata-profiling`의 `ProfileReport`로 보고서를 만들고 Streamlit의 HTML 컴포넌트로 표시합니다. 필요한 라이브러리는 제공된 실습 환경에 준비되어 있습니다.
 
 ## 번역
 
