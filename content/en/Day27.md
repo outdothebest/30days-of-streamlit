@@ -39,7 +39,6 @@ You can use data generated from Nivo Bump demo there, in 'data' tab: https://niv
 
 import json
 import streamlit as st
-from pathlib import Path
 
 # As for Streamlit Elements, we will need all these objects.
 # All available objects and there usage are listed there: https://github.com/okld/streamlit-elements#getting-started
@@ -68,7 +67,10 @@ with st.sidebar:
 # code editor change, and it will be read by Nivo Bump chart to draw the data.
 
 if "data" not in st.session_state:
-    st.session_state.data = Path("data.json").read_text()
+    st.session_state.data = json.dumps([
+        {"id": "Series 1", "data": [{"x": 2020, "y": 1}, {"x": 2021, "y": 2}, {"x": 2022, "y": 1}]},
+        {"id": "Series 2", "data": [{"x": 2020, "y": 2}, {"x": 2021, "y": 1}, {"x": 2022, "y": 2}]},
+    ], indent=2)
 
 # Define a default dashboard layout.
 # Dashboard grid has 12 columns by default.
