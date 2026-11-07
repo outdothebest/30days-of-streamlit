@@ -62,7 +62,9 @@ docker compose up --build -d
 
 기본 포트가 사용 중이면 `STREAMLIT_PORT=8503 docker compose up --build -d`로 실행하고 [http://localhost:8503](http://localhost:8503)을 엽니다. 로그는 `docker compose logs -f streamlit`으로 확인하고, 종료할 때는 저장소 루트에서 `docker compose down`을 실행합니다.
 
-강의 뷰어 이미지는 Python 3.11과 저장소에 포함된 다국어 Streamlit 1.21.0 wheel을 사용합니다. 실습 이미지는 Python 3.12와 Streamlit 1.54.0을 사용합니다. 버전 통일은 [이슈 #38](https://github.com/outdothebest/30days-of-streamlit/issues/38)에서 별도로 진행하며, 현재 두 환경의 버전은 다릅니다. 강의 코드 전체가 실습 버전에서 호환된다고 보장하지 않습니다. 구형 API나 확장 패키지를 사용하는 예제는 해당 일차의 안내와 실습 로그를 함께 확인하세요.
+강의 뷰어와 코드 실습 이미지는 모두 Python 3.12와 표준 Streamlit 1.54.0을 사용합니다. 뷰어의 번역은 저장소의 `locale/` 카탈로그를 Python `gettext`로 읽습니다. Streamlit 자체 메뉴는 표준 배포판의 표시를 따릅니다.
+
+사이드바의 **Language / 언어**에서 강의 언어를 선택합니다. 첫 접속 시 브라우저의 언어 설정을 참고하며, 지원하지 않는 언어는 영어로 표시합니다. `http://localhost:8502/?language=ko&challenge=Day27`처럼 언어와 일차를 지정한 링크로 바로 열 수도 있습니다. 언어나 일차를 선택하면 URL도 갱신됩니다.
 
 ## 강의를 보면서 실습하기
 
@@ -94,7 +96,15 @@ docker compose up --build -d
 
 각 명령은 해당 폴더의 앱에 적용됩니다. 시작할 때 `-p`로 프로젝트 이름을 지정했다면 종료할 때도 같은 이름을 지정하세요. 포트 충돌로 시작하지 못한 앱도 해당 폴더에서 종료 명령으로 정리할 수 있습니다.
 
-### 검증 범위
+### 호환성 검증 범위
+
+macOS ARM64의 OrbStack에서 Linux ARM64 컨테이너(Python 3.12.16, Streamlit 1.54.0)를 검증했습니다. 두 이미지 빌드와 `pip check`, 동시 실행, 뷰어의 12개 언어·직접 링크·일차 이동, 실습 파일 저장 후 반영을 확인했습니다. 한국어 예제의 위젯·폼·쿼리 파라미터·세션 상태·캐싱과 Day14 프로파일링, Day27 Elements 콜백, Day28 SHAP, Day29 회귀 테스트도 확인했습니다. Elements 버튼은 실제 브라우저에서, Monaco의 lazy/sync 데이터 전달은 컴포넌트 위젯 메시지를 통한 자동 테스트로 확인했습니다. 외부 서비스 전체, 모든 예제의 브라우저 조작, Linux AMD64 및 Windows 호스트는 검증하지 않았습니다.
+
+뷰어 회귀 테스트는 뷰어 의존성이 설치된 저장소 루트에서 `python -m unittest discover -s tests -p test_viewer.py`로 실행합니다. 확장 패키지 회귀 테스트를 포함한 전체 테스트는 패치가 적용된 실습 이미지에서 저장소 루트를 `/app`에 마운트하고 `python -m unittest discover -s tests`로 실행합니다.
+
+### 이전 구성의 동시 실행 검증
+
+아래 기록은 버전 통일 전 구성의 검증 이력입니다. 현재 버전과 검증 범위는 위 절을 참고하세요.
 
 2026-11-08, macOS ARM64 + OrbStack(Linux aarch64)에서 두 이미지를 빌드 캐시를 사용해 빌드하고, 기존 서비스와 겹치지 않는 포트 18537(뷰어)·18538(실습)에서 동시에 실행했습니다. 실제 설치 버전은 뷰어 Python 3.11.18 / Streamlit 1.21.0, 실습 Python 3.12.16 / Streamlit 1.54.0이었습니다. 브라우저 두 탭에서 한국어 강의 표시와 호스트의 `app.py` 저장 후 실습 화면 자동 반영을 확인했습니다. 동일한 호스트 포트 18537로 실습 앱을 추가 시작하면 `port is already allocated`로 실패하는 것을 재현했고, 서로 다른 포트에서는 두 앱이 healthy 상태였습니다. 뷰어의 `down`과 실습의 `stop`도 실행했습니다. 실습 컨테이너의 `/app` 쓰기 실패와 `tempfile.TemporaryDirectory()` 안의 파일 저장·읽기를 확인했습니다.
 

@@ -1,16 +1,11 @@
-FROM python:3.11-slim
+FROM python:3.12-slim-bookworm
 
 WORKDIR /app
 
-COPY requirements.txt streamlit-1.21.0-py2.py3-none-any.whl ./
-# The pinned marisa-trie dependency needs a C++ compiler on ARM64.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends g++ \
-    && pip install --no-cache-dir -r requirements.txt \
-    && apt-get purge -y --auto-remove g++ \
-    && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt && pip check
 
-COPY streamlit_app.py language_constants.py streamlit-logo-secondary-colormark-darktext.png ./
+COPY streamlit_app.py viewer_i18n.py language_constants.py streamlit-logo-secondary-colormark-darktext.png ./
 COPY content/ ./content/
 COPY locale/ ./locale/
 
