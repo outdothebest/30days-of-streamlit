@@ -1,133 +1,74 @@
-# st.cache
+# st.cache_data
 
-`st.cache`를 사용하면 Streamlit 앱의 성능을 최적화할 수 있습니다.
+Streamlit은 사용자 상호작용이 있을 때마다 앱을 처음부터 실행합니다. 캐싱을 사용하면 실행 시간이 긴 함수의 결과를 다음 실행에서 재사용할 수 있습니다.
 
-Streamlit은 웹에서 데이터를 불러오거나, 대규모 데이터셋을 다루거나, 비용이 큰 연산을 수행할 때도 앱 성능을 유지할 수 있도록 캐싱 기능을 제공합니다. 이 기능은 `@st.cache` 데코레이터로 사용합니다.
+DataFrame, NumPy 배열, API 응답처럼 데이터를 반환하는 함수에는 `@st.cache_data`를 사용합니다. Streamlit은 결과를 저장하고, 같은 입력으로 함수를 다시 호출하면 복사본을 반환합니다. 데이터베이스 연결이나 머신러닝 모델처럼 여러 실행에서 공유할 리소스에는 `@st.cache_resource`를 사용합니다.
 
-함수에 @st.cache 데코레이터를 붙이면 Streamlit은 그 함수가 호출될 때마다 다음 사항을 확인합니다.
+## 캐시 사용 방법
 
-1. 함수를 호출할 때 전달한 입력 매개변수
-2. 함수에서 사용하는 외부 변수의 값
-3. 함수 본문
-4. 캐시된 함수 안에서 사용하는 다른 함수의 본문
-
-Streamlit이 이 네 가지 요소의 값, 조합, 순서를 처음 접했다면 함수를 실행하고 결과를 로컬 캐시에 저장합니다. 이후 캐시된 함수가 다시 호출되었을 때 이 요소들이 하나도 바뀌지 않았다면 함수 실행을 완전히 건너뛰고, 이전에 캐시에 저장한 출력을 반환합니다.
-
-Streamlit은 해싱을 통해 이러한 요소의 변경을 추적합니다. 캐시를 메모리 안의 키-값 저장소라고 생각하면 됩니다. 키는 위의 모든 요소를 해시한 값이고, 값은 참조로 전달되는 실제 출력 객체입니다.
-
-또한 `@st.cache`는 캐시의 동작을 설정할 수 있는 인수를 지원합니다. 자세한 내용은 API 참조 문서에서 확인할 수 있습니다.
-
-## 사용 방법
-
-Streamlit 앱에서 직접 정의한 함수 바로 윗줄에 `st.cache` 데코레이터를 추가하면 됩니다. 아래 예제를 살펴보세요.
-
-## 데모 앱
-
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/dataprofessor/st.cache/)
+데이터를 반환하는 함수 위에 `@st.cache_data`를 붙입니다. 아래 예제의 두 함수는 같은 크기의 DataFrame을 만듭니다. 캐시 함수는 시간이 오래 걸리는 연산을 흉내 내기 위해 1초를 기다리고, 캐시하지 않는 함수도 같은 작업을 합니다.
 
 ## 코드
-`st.cache`는 다음과 같이 사용합니다.
+
 ```python
-import streamlit as st
+import time
+
 import numpy as np
 import pandas as pd
-from time import time
+import streamlit as st
 
-st.title('st.cache')
-
-# Using cache
-a0 = time()
-st.subheader('Using st.cache')
-
-@st.cache(suppress_st_warning=True)
-def load_data_a():
-  df = pd.DataFrame(
-    np.random.rand(2000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
-
-st.write(load_data_a())
-a1 = time()
-st.info(a1-a0)
+st.title("Streamlit 데이터 캐시")
 
 
-# Not using cache
-b0 = time()
-st.subheader('Not using st.cache')
+@st.cache_data
+def load_data_cached():
+    time.sleep(1)  # 시간이 오래 걸리는 연산을 흉내 냅니다.
+    return pd.DataFrame(
+        np.random.rand(10_000, 5),
+        columns=["a", "b", "c", "d", "e"],
+    )
 
-def load_data_b():
-  df = pd.DataFrame(
-    np.random.rand(2000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
 
-st.write(load_data_b())
-b1 = time()
-st.info(b1-b0)
+def load_data_uncached():
+    time.sleep(1)  # 캐시하지 않고 같은 작업을 합니다.
+    return pd.DataFrame(
+        np.random.rand(10_000, 5),
+        columns=["a", "b", "c", "d", "e"],
+    )
+
+
+if st.button("실행 시간 비교"):
+    started = time.perf_counter()
+    cached_df = load_data_cached()
+    cached_seconds = time.perf_counter() - started
+
+    started = time.perf_counter()
+    uncached_df = load_data_uncached()
+    uncached_seconds = time.perf_counter() - started
+
+    st.write(f"캐시 함수: {cached_seconds:.3f}초")
+    st.write(f"캐시하지 않는 함수: {uncached_seconds:.3f}초")
+    st.caption("캐시된 미리보기는 그대로이고, 캐시하지 않은 미리보기는 클릭할 때마다 바뀝니다.")
+    st.subheader("캐시된 데이터 미리보기")
+    st.dataframe(cached_df.head())
+    st.subheader("캐시하지 않은 데이터 미리보기")
+    st.dataframe(uncached_df.head())
 ```
 
 ## 코드 한 줄씩 살펴보기
-Streamlit 앱을 만들 때 가장 먼저 할 일은 다음과 같이 `streamlit` 라이브러리를 `st`라는 이름으로 가져오고, 앱에서 사용하는 다른 라이브러리도 가져오는 것입니다.
-```python
-import streamlit as st
-import numpy as np
-import pandas as pd
-from time import time
-```
 
-이어서 앱의 제목을 만듭니다.
-```python
-st.title('Streamlit Cache')
-```
+가져온 모듈은 Streamlit, NumPy, pandas와 Python 타이머를 제공합니다. `load_data_cached()`와 `load_data_uncached()`는 각각 작은 DataFrame을 만듭니다. 1초 대기는 다운로드나 데이터 변환처럼 시간이 걸리는 작업을 흉내 냅니다. 함수 코드와 입력이 같으면 `@st.cache_data`가 첫 함수의 결과를 재사용할 수 있습니다.
 
-다음으로 큰 DataFrame을 생성하는 함수 두 개를 정의합니다. 첫 번째 함수에는 `st.cache` 데코레이터를 사용하고, 두 번째 함수에는 사용하지 않습니다.
-```python
-@st.cache(suppress_st_warning=True)
-def load_data_a():
-  df = pd.DataFrame(
-    np.random.rand(1000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
+버튼을 누르면 두 함수가 실행됩니다. `time.perf_counter()`로 각 함수 호출 시간을 측정하고, 두 타이머가 멈춘 뒤 결과를 표시하므로 DataFrame 렌더링 시간은 비교에 포함되지 않습니다. `.head()`를 사용해 작은 미리보기만 표시합니다.
 
-def load_data_b():
-  df = pd.DataFrame(
-    np.random.rand(1000000, 5),
-    columns=['a', 'b', 'c', 'd', 'e']
-  )
-  return df
-```
+## 확인할 점
 
-마지막으로 직접 정의한 함수를 실행하면서 `time()` 명령으로 실행 시간도 측정합니다.
-```python
-# Using cache
-a0 = time()
-st.subheader('Using st.cache')
+캐시가 비어 있을 때 **실행 시간 비교**를 한 번 클릭합니다. 두 함수 모두 1초를 기다립니다. 다시 클릭하면 Streamlit이 앱을 실행하지만, 함수 코드와 입력이 바뀌지 않았으므로 `load_data_cached()`는 저장한 결과를 재사용할 수 있습니다. `load_data_uncached()`는 클릭할 때마다 다시 실행됩니다. 캐시된 미리보기 값은 그대로이고, 캐시하지 않은 미리보기 값은 새로 생성됩니다.
 
-# We insert the load_data_a function here
-
-st.write(load_data_a())
-a1 = time()
-st.info(a1-a0)
-
-# Not using cache
-b0 = time()
-st.subheader('Not using st.cache')
-
-# We insert the load_data_b function here
-
-st.write(load_data_b())
-b1 = time()
-st.info(b1-b0)
-```
-
-처음 실행할 때는 두 실행 시간이 거의 비슷할 수 있습니다. 앱을 새로고침한 뒤 `st.cache` 데코레이터를 사용했을 때 실행 시간이 어떻게 달라지는지 살펴보세요. 속도가 빨라졌나요?
+타이머는 DataFrame을 화면에 표시하는 시간은 제외하고 함수 호출 시간만 측정합니다. 실제 실행 시간은 컴퓨터에 따라 다릅니다. 캐시가 비어 있을 때는 첫 호출이 결과를 계산하고 저장하므로 눈에 띄는 속도 향상을 기대하기 어렵습니다.
 
 ## 더 알아보기
-- [`st.cache` API 문서](https://docs.streamlit.io/library/api-reference/performance/st.cache)
-- [`st.cache`로 성능 최적화하기](https://docs.streamlit.io/library/advanced-features/caching)
-- [실험적 캐시 기본 기능](https://docs.streamlit.io/library/advanced-features/experimental-cache-primitives)
-- [`st.experimental_memo`](https://docs.streamlit.io/library/api-reference/performance/st.experimental_memo)
-- [`st.experimental_singleton`](https://docs.streamlit.io/library/api-reference/performance/st.experimental_singleton)
+
+- [캐싱 개요](https://docs.streamlit.io/develop/concepts/architecture/caching)
+- [`st.cache_data` API 문서](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_data)
+- [`st.cache_resource` API 문서](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_resource)
