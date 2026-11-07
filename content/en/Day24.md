@@ -1,74 +1,124 @@
 # st.cache_data
 
-Streamlit runs your app from top to bottom after each interaction. Caching lets the app reuse results from functions that take time to run.
+`st.cache_data` allows you to optimize the performance of your Streamlit app.
 
-Use `@st.cache_data` for functions that return data, such as a pandas DataFrame, NumPy array, or API response. Streamlit saves the result and returns a copy on later calls with the same inputs. Use `@st.cache_resource` for shared resources such as database connections or machine-learning models.
+Streamlit provides a caching mechanism that allows your app to stay performant even when loading data from the web, manipulating large datasets, or performing expensive computations. This is done with the `@st.cache_data` decorator.
 
-## How to use caching
+`@st.cache_data` caches a function's return value based on its input parameters and function code. On a cache miss, Streamlit runs the function and stores the result. A later call with the same inputs and unchanged function code can return the cached result without running the function again.
 
-Add `@st.cache_data` above a function that returns data. In the example below, both functions build the same size DataFrame. The cached function waits one second to represent a slow computation; the uncached function does the same work without caching.
+Streamlit uses hashing to identify the function's inputs and code. Cached data is serialized, and each call returns a copy of the cached value.
+
+Finally, `@st.cache_data` supports arguments to configure the cache's behavior. You can find more information on those in our API reference.
+
+## How to use?
+
+You can simply add the `st.cache_data` decorator on the preceding line of a custom function that you define in your Streamlit app. See the example below.
+
+## Demo app
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/dataprofessor/st.cache/)
 
 ## Code
-
+Here's how to use `st.cache_data`:
 ```python
-import time
-
+import streamlit as st
 import numpy as np
 import pandas as pd
-import streamlit as st
+from time import time
 
-st.title("Streamlit data cache")
+st.title('st.cache_data')
 
+# Using cache
+a0 = time()
+st.subheader('Using st.cache_data')
 
 @st.cache_data
-def load_data_cached():
-    time.sleep(1)  # Imitate a slow computation.
-    return pd.DataFrame(
-        np.random.rand(10_000, 5),
-        columns=["a", "b", "c", "d", "e"],
-    )
+def load_data_a():
+  df = pd.DataFrame(
+    np.random.rand(2000000, 5),
+    columns=['a', 'b', 'c', 'd', 'e']
+  )
+  return df
+
+st.write(load_data_a())
+a1 = time()
+st.info(a1-a0)
 
 
-def load_data_uncached():
-    time.sleep(1)  # Do the same work without caching.
-    return pd.DataFrame(
-        np.random.rand(10_000, 5),
-        columns=["a", "b", "c", "d", "e"],
-    )
+# Not using cache
+b0 = time()
+st.subheader('Not using st.cache_data')
 
+def load_data_b():
+  df = pd.DataFrame(
+    np.random.rand(2000000, 5),
+    columns=['a', 'b', 'c', 'd', 'e']
+  )
+  return df
 
-if st.button("Compare run times"):
-    started = time.perf_counter()
-    cached_df = load_data_cached()
-    cached_seconds = time.perf_counter() - started
-
-    started = time.perf_counter()
-    uncached_df = load_data_uncached()
-    uncached_seconds = time.perf_counter() - started
-
-    st.write(f"Cached function: {cached_seconds:.3f} seconds")
-    st.write(f"Uncached function: {uncached_seconds:.3f} seconds")
-    st.caption("The cached preview stays the same; the uncached preview changes after each click.")
-    st.subheader("Cached data preview")
-    st.dataframe(cached_df.head())
-    st.subheader("Uncached data preview")
-    st.dataframe(uncached_df.head())
+st.write(load_data_b())
+b1 = time()
+st.info(b1-b0)
 ```
 
 ## Line-by-line explanation
+The very first thing to do when creating a Streamlit app is to start by importing the `streamlit` library as `st` as well as other libraries used in the app like so:
+```python
+import streamlit as st
+import numpy as np
+import pandas as pd
+from time import time
+```
 
-The imports provide Streamlit, NumPy, pandas, and Python's timer. `load_data_cached()` and `load_data_uncached()` each generate a small DataFrame. The one-second `sleep` stands in for a slow operation, such as downloading or transforming data. `@st.cache_data` lets Streamlit reuse the first function's result when its code and inputs stay the same.
+This is followed by creating a title text for the app:
+```python
+st.title('Streamlit Cache')
+```
 
-The button runs both functions when clicked. `time.perf_counter()` measures each function call, and the results are displayed after both timers stop so DataFrame rendering does not affect the comparison. The `.head()` calls keep the previews small.
+Next, we'll define 2 custom functions for generating a large DataFrame where the first one makes use of the `st.cache_data` decorator while the second does not:
+```python
+@st.cache_data
+def load_data_a():
+  df = pd.DataFrame(
+    np.random.rand(1000000, 5),
+    columns=['a', 'b', 'c', 'd', 'e']
+  )
+  return df
 
-## What to observe
+def load_data_b():
+  df = pd.DataFrame(
+    np.random.rand(1000000, 5),
+    columns=['a', 'b', 'c', 'd', 'e']
+  )
+  return df
+```
 
-With an empty cache, click **Compare run times** once. Both functions do the one-second wait. Click it again: Streamlit re-runs the app, but `load_data_cached()` can reuse its result because its code and inputs have not changed. `load_data_uncached()` runs again each time. The cached preview stays the same, while the uncached preview contains newly generated values.
+Finally, we run the custom function while also timing the run time using the `time()` command.
+```python
+# Using cache
+a0 = time()
+st.subheader('Using st.cache_data')
 
-The timer measures only each function call; it does not include displaying the DataFrames. Actual times vary by machine, and the first cached call may not look faster because it must compute and store the result.
+# We insert the load_data_a function here
+
+st.write(load_data_a())
+a1 = time()
+st.info(a1-a0)
+
+# Not using cache
+b0 = time()
+st.subheader('Not using st.cache_data')
+
+# We insert the load_data_b function here
+
+st.write(load_data_b())
+b1 = time()
+st.info(b1-b0)
+```
+
+Notice how the first run may provide roughly similar run time. Reload the app and notice how the run time changes when using the `st.cache_data` decorator. Did you observe any speed increase?
 
 ## Further reading
-
+- [`st.cache_data` API Documentation](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_data)
 - [Caching overview](https://docs.streamlit.io/develop/concepts/architecture/caching)
-- [`st.cache_data` API reference](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_data)
-- [`st.cache_resource` API reference](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_resource)
+- [`st.cache_resource` API Documentation](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_resource)
